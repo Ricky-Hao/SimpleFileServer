@@ -21,10 +21,21 @@
             <a href="{{ url_for('show', path=entry.relpath) }}">{{ entry.name|truncate(50, True) }}</a>
         </td>
         <td>{{ "%s - %s"|format(entry.mtime, entry.size) }}</td>
-        <td><a href="{{ url_for('delete', path=entry.relpath) }}">Delete</a></td>
+        <td><button type="button" name="{{ entry.relpath }}" onclick="del(this)">Delete</button> </td>
     </tr>
     {% endfor %}
 </table>
 <hr>
+<script>
+    function del(data) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{{ url_for('delete') }}", true);
+        xhr.setRequestHeader('content-type', 'application/json');
+        xhr.onload = function () {
+            location.reload();
+        };
+        xhr.send(JSON.stringify({"path":data.name}));
+    }
+</script>
 </body>
 </html>
