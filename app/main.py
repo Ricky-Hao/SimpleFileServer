@@ -7,9 +7,6 @@ from .entry import Scaner
 
 app = Flask(__name__)
 
-#@app.before_request
-#def before_request():
-#    print("bf:"+request.form['path'])
 
 @app.route('/files/')
 def index():
