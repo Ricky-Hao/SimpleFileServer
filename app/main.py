@@ -1,5 +1,6 @@
 import os
 import shutil
+from urllib.parse import quote
 from flask import Flask, render_template, url_for, send_from_directory, redirect, request
 from .setting import root_path
 from .entry import Scaner
@@ -25,7 +26,9 @@ def show(path):
     if os.path.isdir(real_path):
         return render_template('index.html', parent_path=parent_path, path=path, entries=Scaner(real_path).entries)
     else:
-        return send_from_directory(os.path.dirname(real_path), os.path.basename(real_path), as_attachment=True)
+        filename = os.path.basename(real_path)
+        dirname = os.path.dirname(real_path)
+        return send_from_directory(dirname, filename, as_attachment=True, attachment_filename=quote(filename))
 
 
 @app.route('/files/delete', methods=['POST'])
